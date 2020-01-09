@@ -117,16 +117,20 @@ if __name__ == '__main__':
     np.random.seed(args.seed)
     random.seed(args.seed)
 
-    device = torch.device("cuda" if args.cuda else "cpu")
-    args.distributed = args.world_size > 1
+    # device = torch.device("cuda" if args.cuda else "cpu")
+    args.distributed = args.world_size > 1    # '--world-size', default=1
     main_proc = True
-    device = torch.device("cuda" if args.cuda else "cpu")
+    # device = torch.device("cuda" if args.cuda else "cpu")
+    device = torch.device("cpu")
     if args.distributed:
+        print("if args.distributed ...")
         if args.gpu_rank:
             torch.cuda.set_device(int(args.gpu_rank))
         dist.init_process_group(backend=args.dist_backend, init_method=args.dist_url,
                                 world_size=args.world_size, rank=args.rank)
         main_proc = args.rank == 0  # Only the first proc should save models
+    else :
+        print("else args.distributed ...")
     save_folder = args.save_folder
     os.makedirs(save_folder, exist_ok=True)  # Ensure save folder exists
 
