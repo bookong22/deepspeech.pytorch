@@ -7,8 +7,8 @@ import time
 import numpy as np
 import torch.distributed as dist
 import torch.utils.data.distributed
-# from apex import amp
-# from apex.parallel import DistributedDataParallel
+from apex import amp
+from apex.parallel import DistributedDataParallel
 from warpctc_pytorch import CTCLoss
 
 from data.data_loader import AudioDataLoader, SpectrogramDataset, BucketingSampler, DistributedBucketingSampler
