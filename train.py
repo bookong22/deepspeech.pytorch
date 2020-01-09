@@ -7,8 +7,8 @@ import time
 import numpy as np
 import torch.distributed as dist
 import torch.utils.data.distributed
-from apex import amp
-from apex.parallel import DistributedDataParallel
+# from apex import amp
+# from apex.parallel import DistributedDataParallel
 from warpctc_pytorch import CTCLoss
 
 from data.data_loader import AudioDataLoader, SpectrogramDataset, BucketingSampler, DistributedBucketingSampler
@@ -82,7 +82,7 @@ parser.add_argument('--keep-batchnorm-fp32', type=str, default=None)
 parser.add_argument('--loss-scale', type=str, default=None)
 
 torch.manual_seed(123456)
-torch.cuda.manual_seed_all(123456)
+# torch.cuda.manual_seed_all(123456)
 
 
 def to_np(x):
@@ -113,7 +113,7 @@ if __name__ == '__main__':
 
     # Set seeds for determinism
     torch.manual_seed(args.seed)
-    torch.cuda.manual_seed_all(args.seed)
+    # torch.cuda.manual_seed_all(args.seed)
     np.random.seed(args.seed)
     random.seed(args.seed)
 
