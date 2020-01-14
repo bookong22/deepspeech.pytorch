@@ -254,7 +254,7 @@ if __name__ == '__main__':
             # print("output_sizes, target_sizes : ", output_sizes, target_sizes)
             # exit()  # test 20200114
             targets = targets.to(device)
-            loss = criterion(float_out, targets, output_sizes, target_sizes).to(device)
+            loss = criterion(float_out, targets, output_sizes, target_sizes)    # .to(device)
             loss = loss / inputs.size(0)  # average the loss by minibatch
 
             if args.distributed:
