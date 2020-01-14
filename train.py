@@ -10,7 +10,7 @@ import torch.utils.data.distributed
 from apex import amp
 from apex.parallel import DistributedDataParallel
 # from warpctc_pytorch import CTCLoss    # 20200113 replace by torch.nn.CTCLoss
-import torch.nn.CTCLoss as CTCLoss    # 20200113
+import torch    # 20200113    torch.nn.CTCLoss
 
 from data.data_loader import AudioDataLoader, SpectrogramDataset, BucketingSampler, DistributedBucketingSampler
 from decoder import GreedyDecoder
@@ -222,7 +222,7 @@ if __name__ == '__main__':
     print(model)
     print("Number of parameters: %d" % DeepSpeech.get_param_size(model))
 
-    criterion = CTCLoss()
+    criterion = torch.nn.CTCLoss()
     batch_time = AverageMeter()
     data_time = AverageMeter()
     losses = AverageMeter()
