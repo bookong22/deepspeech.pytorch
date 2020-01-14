@@ -249,7 +249,7 @@ if __name__ == '__main__':
 
             float_out = out.float()  # ensure float32 for loss
 
-            targets = targets.to(device)
+            targets = targets.to(device).long()
             # output_sizes = output_sizes.to(torch.device('cpu'))
             # target_sizes = target_sizes.to(torch.device('cpu'))
             float_out_log_softmax = torch.nn.functional.log_softmax(float_out)
