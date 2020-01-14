@@ -248,11 +248,11 @@ if __name__ == '__main__':
             out = out.transpose(0, 1)  # TxNxH
 
             float_out = out.float()  # ensure float32 for loss
-            print("out.shape : ", out.shape)
-            print("float_out.shape : ", float_out.shape)
-            print("targets.shape : ", targets.shape)
-            print("output_sizes, target_sizes : ", output_sizes, target_sizes)
-            exit()  # test 20200114
+            # print("out.shape : ", out.shape)
+            # print("float_out.shape : ", float_out.shape)
+            # print("targets.shape : ", targets.shape)
+            # print("output_sizes, target_sizes : ", output_sizes, target_sizes)
+            # exit()  # test 20200114
             loss = criterion(float_out, targets, output_sizes, target_sizes).to(device)
             loss = loss / inputs.size(0)  # average the loss by minibatch
 
