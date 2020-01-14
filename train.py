@@ -78,7 +78,7 @@ parser.add_argument('--rank', default=0, type=int,
 parser.add_argument('--gpu-rank', default=None,
                     help='If using distributed parallel for multi-gpu, sets the GPU for the process')
 parser.add_argument('--seed', default=123456, type=int, help='Seed to generators')
-parser.add_argument('--opt-level', type=str, default="00")    # 20200114 add , default="00"
+parser.add_argument('--opt-level', type=str, default="O0")    # 20200114 add , default="O0"    参考文献 https://www.codercto.com/a/79904.html
 parser.add_argument('--keep-batchnorm-fp32', type=str, default=None)
 parser.add_argument('--loss-scale', type=str, default=None)
 
