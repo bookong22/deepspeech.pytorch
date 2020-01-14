@@ -258,6 +258,7 @@ if __name__ == '__main__':
             print("float_out_log_softmax.shape : ", float_out_log_softmax.shape)
             print("targets.shape : ", targets.shape)
             print("output_sizes, target_sizes : ", output_sizes, target_sizes)
+            time.sleep(1)
             # exit()  # test 20200114
             loss = criterion(float_out_log_softmax, targets, output_sizes, target_sizes)    # .to(device)
             loss = loss / inputs.size(0)  # average the loss by minibatch
