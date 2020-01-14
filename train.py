@@ -255,10 +255,10 @@ if __name__ == '__main__':
             # exit()  # test 20200114
 
             targets = targets.to(device)
-            output_sizes = output_sizes.to(torch.device('cpu'))
-            target_sizes = target_sizes.to(torch.device('cpu'))
-
-            loss = criterion(float_out, targets, output_sizes, target_sizes)    # .to(device)
+            # output_sizes = output_sizes.to(torch.device('cpu'))
+            # target_sizes = target_sizes.to(torch.device('cpu'))
+            float_out_log_softmax = torch.nn.functional.log_softmax(float_out)
+            loss = criterion(float_out_log_softmax, targets, output_sizes, target_sizes)    # .to(device)
             loss = loss / inputs.size(0)  # average the loss by minibatch
 
             if args.distributed:
