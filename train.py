@@ -253,10 +253,12 @@ if __name__ == '__main__':
             # print("targets.shape : ", targets.shape)
             # print("output_sizes, target_sizes : ", output_sizes, target_sizes)
             # exit()  # test 20200114
+            """
             targets = targets.to(device)
             output_sizes = output_sizes.to(device)
             target_sizes = target_sizes.to(device)
             float_out = float_out.to(device)
+            """
             loss = criterion(float_out, targets, output_sizes, target_sizes)    # .to(device)
             loss = loss / inputs.size(0)  # average the loss by minibatch
 
