@@ -78,7 +78,7 @@ parser.add_argument('--rank', default=0, type=int,
 parser.add_argument('--gpu-rank', default=None,
                     help='If using distributed parallel for multi-gpu, sets the GPU for the process')
 parser.add_argument('--seed', default=123456, type=int, help='Seed to generators')
-parser.add_argument('--opt-level', type=str)
+parser.add_argument('--opt-level', type=str, default="00")    # 20200114 add , default="00"
 parser.add_argument('--keep-batchnorm-fp32', type=str, default=None)
 parser.add_argument('--loss-scale', type=str, default=None)
 
@@ -212,7 +212,11 @@ if __name__ == '__main__':
                                 momentum=args.momentum, nesterov=True, weight_decay=1e-5)
     if optim_state is not None:
         optimizer.load_state_dict(optim_state)
-
+    # 20200114 add print
+    print("args.opt_level : ", args.opt_level)
+    print("args.keep_batchnorm_fp32 : ", args.keep_batchnorm_fp32)
+    print("args.loss_scale : ", args.loss_scale)
+    ###############
     model, optimizer = amp.initialize(model, optimizer,
                                       opt_level=args.opt_level,
                                       keep_batchnorm_fp32=args.keep_batchnorm_fp32,
