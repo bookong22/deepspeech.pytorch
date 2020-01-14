@@ -9,7 +9,8 @@ import torch.distributed as dist
 import torch.utils.data.distributed
 from apex import amp
 from apex.parallel import DistributedDataParallel
-from warpctc_pytorch import CTCLoss
+# from warpctc_pytorch import CTCLoss    # 20200113 replace by torch.nn.CTCLoss
+import torch.nn.CTCLoss as CTCLoss    # 20200113
 
 from data.data_loader import AudioDataLoader, SpectrogramDataset, BucketingSampler, DistributedBucketingSampler
 from decoder import GreedyDecoder
@@ -113,15 +114,14 @@ if __name__ == '__main__':
 
     # Set seeds for determinism
     torch.manual_seed(args.seed)
-    # torch.cuda.manual_seed_all(args.seed)
+    torch.cuda.manual_seed_all(args.seed)
     np.random.seed(args.seed)
     random.seed(args.seed)
 
-    # device = torch.device("cuda" if args.cuda else "cpu")
+    device = torch.device("cuda" if args.cuda else "cpu")
     args.distributed = args.world_size > 1    # '--world-size', default=1
     main_proc = True
-    # device = torch.device("cuda" if args.cuda else "cpu")
-    device = torch.device("cpu")
+    device = torch.device("cuda" if args.cuda else "cpu")
     if args.distributed:
         print("if args.distributed ...")
         if args.gpu_rank:
@@ -131,7 +131,7 @@ if __name__ == '__main__':
         main_proc = args.rank == 0  # Only the first proc should save models
     else :
         print("else args.distributed ...")
-    save_folder = args.save_folder
+    save_folder = args.save_folder    # '--save-folder', default='models/', help='Location to save epoch models'
     os.makedirs(save_folder, exist_ok=True)  # Ensure save folder exists
 
     loss_results, cer_results, wer_results = torch.Tensor(args.epochs), torch.Tensor(args.epochs), torch.Tensor(
@@ -244,6 +244,11 @@ if __name__ == '__main__':
             out = out.transpose(0, 1)  # TxNxH
 
             float_out = out.float()  # ensure float32 for loss
+            print("out.shape : ", out.shape)
+            print("float_out.shape : ", float_out.shape)
+            print("targets.shape : ", targets.shape)
+            print("output_sizes, target_sizes : ", output_sizes, target_sizes)
+            exit()  # test 20200114
             loss = criterion(float_out, targets, output_sizes, target_sizes).to(device)
             loss = loss / inputs.size(0)  # average the loss by minibatch
 
