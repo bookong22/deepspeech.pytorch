@@ -249,6 +249,9 @@ if __name__ == '__main__':
             data_time.update(time.time() - end)
             inputs = inputs.to(device)
             input_sizes.to(device)    # add 20200115
+            print("model.device : ", model.device)
+            print("inputs.device : ", inputs.device)
+            print("input_sizes.device : ", input_sizes.device)
             out, output_sizes = model(inputs, input_sizes)
             out = out.transpose(0, 1)  # TxNxH
 
