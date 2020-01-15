@@ -36,6 +36,8 @@ parser.add_argument('--hidden-layers', default=5, type=int, help='Number of RNN 
 parser.add_argument('--rnn-type', default='gru', help='Type of the RNN. rnn|gru|lstm are supported')
 parser.add_argument('--epochs', default=70, type=int, help='Number of training epochs')
 parser.add_argument('--cuda', dest='cuda', action='store_true', help='Use cuda to train model')
+# add 20200115
+parser.add_argument('--cuda-idx', default='cuda:0', type=str, help='Use cuda:idx to train model')
 parser.add_argument('--lr', '--learning-rate', default=3e-4, type=float, help='initial learning rate')
 parser.add_argument('--momentum', default=0.9, type=float, help='momentum')
 parser.add_argument('--max-norm', default=400, type=int, help='Norm cutoff to prevent explosion of gradients')
@@ -117,11 +119,12 @@ if __name__ == '__main__':
     torch.cuda.manual_seed_all(args.seed)
     np.random.seed(args.seed)
     random.seed(args.seed)
-
-    device = torch.device("cuda" if args.cuda else "cpu")
+    print("args.cuda, args.cuda_idx : ", args.cuda, args.cuda_idx)
+    # device = torch.device(args.cuda_idx if args.cuda else "cpu")
     args.distributed = args.world_size > 1    # '--world-size', default=1
     main_proc = True
-    device = torch.device("cuda" if args.cuda else "cpu")
+    device = torch.device(args.cuda_idx if args.cuda else "cpu")
+    print("device : ", device)
     if args.distributed:
         print("if args.distributed ...")
         if args.gpu_rank:
@@ -252,7 +255,8 @@ if __name__ == '__main__':
             targets = targets.to(device).long()
             # output_sizes = output_sizes.to(torch.device('cpu'))
             # target_sizes = target_sizes.to(torch.device('cpu'))
-            float_out_log_softmax = torch.nn.functional.log_softmax(float_out)
+            # 20200115 add dim = 2, if no, default dim = 0
+            float_out_log_softmax = torch.nn.functional.log_softmax(float_out, dim=2)
             output_sizes = output_sizes.long()
             target_sizes = target_sizes.long()
             # print("out.shape : ", out.shape)
