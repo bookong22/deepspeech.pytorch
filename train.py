@@ -248,7 +248,7 @@ if __name__ == '__main__':
             # measure data loading time
             data_time.update(time.time() - end)
             inputs = inputs.to(device)
-            input_sizes.to(device)    # add 20200115
+            input_sizes = input_sizes.to(device)    # add 20200115
             # print("model.device : ", model.device)
             print("inputs.device : ", inputs.device)
             print("input_sizes.device : ", input_sizes.device)
