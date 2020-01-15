@@ -228,6 +228,8 @@ if __name__ == '__main__':
     '''
     if args.distributed:
         model = DistributedDataParallel(model)
+    else :
+        print("model not DistributedDataParallel")
     print(model)
     print("Number of parameters: %d" % DeepSpeech.get_param_size(model))
 
