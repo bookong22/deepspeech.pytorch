@@ -7,7 +7,7 @@ import time
 import numpy as np
 import torch.distributed as dist
 import torch.utils.data.distributed
-from apex import amp
+# from apex import amp    # 不用 amp 20200115
 from apex.parallel import DistributedDataParallel
 # from warpctc_pytorch import CTCLoss    # 20200113 replace by torch.nn.CTCLoss
 import torch    # 20200113    torch.nn.CTCLoss
@@ -220,10 +220,12 @@ if __name__ == '__main__':
     print("args.keep_batchnorm_fp32 : ", args.keep_batchnorm_fp32)
     print("args.loss_scale : ", args.loss_scale)
     ###############
+    '''    不用 amp 20200115
     model, optimizer = amp.initialize(model, optimizer,
                                       opt_level=args.opt_level,
                                       keep_batchnorm_fp32=args.keep_batchnorm_fp32,
                                       loss_scale=args.loss_scale)
+    '''
     if args.distributed:
         model = DistributedDataParallel(model)
     print(model)
@@ -280,9 +282,11 @@ if __name__ == '__main__':
             if valid_loss:
                 optimizer.zero_grad()
                 # compute gradient
-
+                ''' 不用 amp 20200115
                 with amp.scale_loss(loss, optimizer) as scaled_loss:
                     scaled_loss.backward()
+                '''
+                loss.backward()    # add 20200115
                 torch.nn.utils.clip_grad_norm_(model.parameters(), args.max_norm)
                 optimizer.step()
             else:
