@@ -125,6 +125,9 @@ if __name__ == '__main__':
     main_proc = True
     device = torch.device(args.cuda_idx if args.cuda else "cpu")
     print("device : ", device)
+    print("before set_device, cuda.current_device : ", torch.cuda.current_device())
+    torch.cuda.set_device(device)
+    print("before set_device, cuda.current_device : ", torch.cuda.current_device())
     if args.distributed:
         print("if args.distributed ...")
         if args.gpu_rank:
@@ -225,11 +228,11 @@ if __name__ == '__main__':
                                       opt_level=args.opt_level,
                                       keep_batchnorm_fp32=args.keep_batchnorm_fp32,
                                       loss_scale=args.loss_scale)
-    '''
     if args.distributed:
         model = DistributedDataParallel(model)
     else :
         print("model not DistributedDataParallel")
+    '''
     print(model)
     print("Number of parameters: %d" % DeepSpeech.get_param_size(model))
 
