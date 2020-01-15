@@ -248,7 +248,7 @@ if __name__ == '__main__':
             # measure data loading time
             data_time.update(time.time() - end)
             inputs = inputs.to(device)
-
+            input_sizes.to(device)    # add 20200115
             out, output_sizes = model(inputs, input_sizes)
             out = out.transpose(0, 1)  # TxNxH
 
