@@ -99,33 +99,39 @@ class SpectrogramParser(AudioParser):
                                             audio_conf['noise_levels']) if audio_conf.get(
             'noise_dir') is not None else None
         self.noise_prob = audio_conf.get('noise_prob')
+        self.dict_audio_path_spect = {}
 
     def parse_audio(self, audio_path):
         print("audio_path : ", audio_path)
-        if self.augment:
-            y = load_randomly_augmented_audio(audio_path, self.sample_rate)
-        else:
-            y = load_audio(audio_path)
-        if self.noiseInjector:
-            add_noise = np.random.binomial(1, self.noise_prob)
-            if add_noise:
-                y = self.noiseInjector.inject_noise(y)
-        n_fft = int(self.sample_rate * self.window_size)
-        win_length = n_fft
-        hop_length = int(self.sample_rate * self.window_stride)
-        # STFT
-        D = librosa.stft(y, n_fft=n_fft, hop_length=hop_length,
-                         win_length=win_length, window=self.window)
-        spect, phase = librosa.magphase(D)
-        # S = log(S+1)
-        spect = np.log1p(spect)
-        spect = torch.FloatTensor(spect)
-        if self.normalize:
-            mean = spect.mean()
-            std = spect.std()
-            spect.add_(-mean)
-            spect.div_(std)
-        print("------------------------------------------- parse_audio -------------------------------------------")
+        if audio_path not in self.dict_audio_path_spect :
+            if self.augment:
+                y = load_randomly_augmented_audio(audio_path, self.sample_rate)
+            else:
+                y = load_audio(audio_path)
+            if self.noiseInjector:
+                add_noise = np.random.binomial(1, self.noise_prob)
+                if add_noise:
+                    y = self.noiseInjector.inject_noise(y)
+            n_fft = int(self.sample_rate * self.window_size)
+            win_length = n_fft
+            hop_length = int(self.sample_rate * self.window_stride)
+            # STFT
+            D = librosa.stft(y, n_fft=n_fft, hop_length=hop_length,
+                             win_length=win_length, window=self.window)
+            spect, phase = librosa.magphase(D)
+            # S = log(S+1)
+            spect = np.log1p(spect)
+            spect = torch.FloatTensor(spect)
+            if self.normalize:
+                mean = spect.mean()
+                std = spect.std()
+                spect.add_(-mean)
+                spect.div_(std)
+            print("------------------------------------------- parse_audio -------------------------------------------")
+            self.dict_audio_path_spect.update({audio_path : spect})
+        else :
+            spect = self.dict_audio_path_spect[audio_path]
+            print("------------------------------------------- from dict -------------------------------------------")
         return spect
 
     def parse_transcript(self, transcript_path):
