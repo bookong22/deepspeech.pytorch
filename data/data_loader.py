@@ -124,7 +124,7 @@ class SpectrogramParser(AudioParser):
             std = spect.std()
             spect.add_(-mean)
             spect.div_(std)
-
+        print("------------------------------------------- parse_audio -------------------------------------------")
         return spect
 
     def parse_transcript(self, transcript_path):

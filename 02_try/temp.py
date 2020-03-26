@@ -16,6 +16,7 @@ def test_dict() :
 def pytorch_version() :
     print(torch.__version__)
 
+
 def test_torch_log_softmax() :
 
     T = 5  # Input sequence length
@@ -54,10 +55,25 @@ def test_cuda() :
     print("c.device : ", c.device)
     print("c : ", c)
 
+
+def test_torchaudio() :
+    import torchaudio
+
+
+def test_set() :
+    ids = list(range(0, 5))
+    batch_size = 3
+    bins = [ids[i:i + batch_size] for i in range(0, len(ids), batch_size)]
+    print(bins)
+    la = [0, 1, 2]
+    print(la[2:5])
+
+
 if __name__ == "__main__" :
     # test_str_enumerate()
     # test_dict()
     # pytorch_version()
     # test_torch_log_softmax()
     # print_device()
-    test_cuda()
+    # test_cuda()
+    test_set()
