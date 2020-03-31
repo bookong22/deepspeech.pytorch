@@ -72,7 +72,7 @@ def create_arguments() :
     parser.add_argument('--no-bidirectional', dest='bidirectional', action='store_false', default=True,
                         help='Turn off bi-directional RNNs, introduces lookahead convolution')
     # add 20200331
-    parser.add_argument('--distributed', dest=True, action='store_true', help='Use DistributedDataParallel')
+    parser.add_argument('--distributed', dest="distributed", action='store_true', help='Use DistributedDataParallel')
     parser.add_argument('--dist-url', default='tcp://127.0.0.1:1550', type=str,
                         help='url used to set up distributed training')
     parser.add_argument('--dist-backend', default='nccl', type=str, help='distributed backend')
