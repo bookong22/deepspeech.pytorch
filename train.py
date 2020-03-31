@@ -264,6 +264,8 @@ if __name__ == '__main__':
             # print("inputs.device : ", inputs.device)
             # print("input_sizes.device : ", input_sizes.device)
             out, output_sizes = model(inputs, input_sizes)
+            print("inputs, outputs shape; input_sizes, output_sizes  : ",
+                  inputs.shape, out.shape, input_sizes, output_sizes)
             out = out.transpose(0, 1)  # TxNxH
 
             float_out = out.float()  # ensure float32 for loss
