@@ -6,7 +6,7 @@ import time
 
 import numpy as np
 import torch.distributed as dist
-import torch.utils.data.distributed
+# import torch.utils.data.distributed
 import torch    # 20200113    torch.nn.CTCLoss
 
 from data.data_loader import AudioDataLoader, SpectrogramDataset, BucketingSampler, DistributedBucketingSampler
@@ -71,6 +71,8 @@ def create_arguments() :
                         help='Turn off ordering of dataset on sequence length for the first epoch.')
     parser.add_argument('--no-bidirectional', dest='bidirectional', action='store_false', default=True,
                         help='Turn off bi-directional RNNs, introduces lookahead convolution')
+    # add 20200331
+    parser.add_argument('--distributed', dest=True, action='store_true', help='Use DistributedDataParallel')
     parser.add_argument('--dist-url', default='tcp://127.0.0.1:1550', type=str,
                         help='url used to set up distributed training')
     parser.add_argument('--dist-backend', default='nccl', type=str, help='distributed backend')
@@ -124,7 +126,7 @@ if __name__ == '__main__':
     random.seed(args.seed)
     print("args.cuda, args.cuda_idx : ", args.cuda, args.cuda_idx)
     # device = torch.device(args.cuda_idx if args.cuda else "cpu")
-    args.distributed = args.world_size > 1    # '--world-size', default=1
+    # args.distributed = args.world_size > 1    # '--world-size', default=1
     main_proc = True
     device = torch.device(args.cuda_idx if args.cuda else "cpu")
     print("device : ", device)
