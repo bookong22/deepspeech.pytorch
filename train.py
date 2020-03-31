@@ -266,6 +266,7 @@ if __name__ == '__main__':
             out, output_sizes = model(inputs, input_sizes)
             print("inputs, outputs shape; input_sizes, output_sizes  : ",
                   inputs.shape, out.shape, input_sizes, output_sizes)
+            print("out[:][-1][:] : ", out[:][-1][:])
             out = out.transpose(0, 1)  # TxNxH
 
             float_out = out.float()  # ensure float32 for loss
