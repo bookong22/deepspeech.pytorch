@@ -69,6 +69,17 @@ def test_set() :
     print(la[2:5])
 
 
+def test_shuffle() :
+    import numpy as np
+    la = [i for i in range(43)]
+    b = 10
+    lb = [la[i:i+b] for i in range(0, len(la), b)]
+    print(lb)
+    np.random.shuffle(lb)
+    print(type(lb))
+    print(lb)
+
+
 if __name__ == "__main__" :
     # test_str_enumerate()
     # test_dict()
@@ -76,4 +87,5 @@ if __name__ == "__main__" :
     # test_torch_log_softmax()
     # print_device()
     # test_cuda()
-    test_set()
+    # test_set()
+    test_shuffle()
