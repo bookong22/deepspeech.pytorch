@@ -128,7 +128,7 @@ if __name__ == '__main__':
     # device = torch.device(args.cuda_idx if args.cuda else "cpu")
     # args.distributed = args.world_size > 1    # '--world-size', default=1
     main_proc = True
-    device = torch.device(args.cuda_idx if args.cuda else "cpu")
+    device = torch.device("cuda" if args.cuda else "cpu")
     print("device : ", device)
     print("before set_device, cuda.current_device : ", torch.cuda.current_device())
     torch.cuda.set_device(device)
