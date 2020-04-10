@@ -136,6 +136,8 @@ if __name__ == '__main__':
     if args.distributed:
         print("if args.distributed ...")
         if args.gpu_rank:
+            device = torch.device("cuda:" + str(args.gpu_rank))
+            print("device : ", device)
             torch.cuda.set_device(int(args.gpu_rank))
         dist.init_process_group(backend=args.dist_backend, init_method=args.dist_url,
                                 world_size=args.world_size, rank=args.rank)
