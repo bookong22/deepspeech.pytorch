@@ -223,7 +223,7 @@ if __name__ == '__main__':
         model = model.to(device)
     else :
         model.to(device)
-        model = torch.nn.parallel.DistributedDataParallel(model)
+        model = torch.nn.parallel.DistributedDataParallel(model, device_ids=device, output_device=device)
     print(model)
     print("Number of parameters: %d" % DeepSpeech.get_param_size(model))
     # optimizer 实例化 需要 在 DistributedDataParallel 操作之后
