@@ -142,6 +142,7 @@ if __name__ == '__main__':
         main_proc = args.rank == 0  # Only the first proc should save models
     else :
         print("else args.distributed ...")
+    print("dist.init_process_group done !")
     save_folder = args.save_folder    # '--save-folder', default='models/', help='Location to save epoch models'
     os.makedirs(save_folder, exist_ok=True)  # Ensure save folder exists
 
@@ -212,7 +213,7 @@ if __name__ == '__main__':
                                    num_workers=args.num_workers, batch_sampler=train_sampler)
     test_loader = AudioDataLoader(test_dataset, batch_size=args.batch_size,
                                   num_workers=args.num_workers)
-
+    print("AudioDataLoader init done !")
     if (not args.no_shuffle and start_epoch != 0) or args.no_sorta_grad:
         print("Shuffling batches for the following epochs")
         train_sampler.shuffle(start_epoch)
@@ -234,9 +235,6 @@ if __name__ == '__main__':
     print("args.keep_batchnorm_fp32 : ", args.keep_batchnorm_fp32)
     print("args.loss_scale : ", args.loss_scale)
     ###############
-
-
-
     criterion = torch.nn.CTCLoss()
     batch_time = AverageMeter()
     data_time = AverageMeter()
