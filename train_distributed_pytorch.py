@@ -326,6 +326,9 @@ if __name__ == '__main__':
                 '''
                 torch.save(model, file_path)
             del loss, out, float_out
+            # 20200410 
+            del inputs, targets
+            # torch.cuda.empty_cache()
         # end one epoch
         avg_loss /= len(train_sampler)
 

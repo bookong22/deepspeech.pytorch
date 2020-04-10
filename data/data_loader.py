@@ -102,7 +102,7 @@ class SpectrogramParser(AudioParser):
         self.dict_audio_path_spect = {}
 
     def parse_audio(self, audio_path):
-        print("audio_path : ", audio_path)
+        # print("audio_path : ", audio_path)
         if audio_path not in self.dict_audio_path_spect :
             if self.augment:
                 y = load_randomly_augmented_audio(audio_path, self.sample_rate)
@@ -127,11 +127,11 @@ class SpectrogramParser(AudioParser):
                 std = spect.std()
                 spect.add_(-mean)
                 spect.div_(std)
-            print("------------------------------------------- parse_audio -------------------------------------------")
+            # print("------------------------------------------- parse_audio -------------------------------------------")
             self.dict_audio_path_spect.update({audio_path : spect})
         else :
             spect = self.dict_audio_path_spect[audio_path]
-            print("------------------------------------------- from dict -------------------------------------------")
+            # print("------------------------------------------- from dict -------------------------------------------")
         return spect
 
     def parse_transcript(self, transcript_path):
@@ -189,12 +189,12 @@ def _collate_fn(batch):
     max_seqlength = longest_sample.size(1)
     # 20200410
     if torch.distributed.is_available() :
-        print("_collate_fn max_seqlength before all_reduce : ", max_seqlength)
-        print("torch.distributed.get_rank() : ", torch.distributed.get_rank())
+        # print("_collate_fn max_seqlength before all_reduce : ", max_seqlength)
+        # print("torch.distributed.get_rank() : ", torch.distributed.get_rank())
         ts_max_seqlength = torch.tensor(max_seqlength).cuda(torch.distributed.get_rank())
         torch.distributed.all_reduce(ts_max_seqlength, op=torch.distributed.ReduceOp.MAX)
         max_seqlength = ts_max_seqlength.item()
-        print("_collate_fn max_seqlength after all_reduce : ", max_seqlength)
+        # print("_collate_fn max_seqlength after all_reduce : ", max_seqlength)
     inputs = torch.zeros(minibatch_size, 1, freq_size, max_seqlength)
     input_percentages = torch.FloatTensor(minibatch_size)
     target_sizes = torch.IntTensor(minibatch_size)
