@@ -222,7 +222,7 @@ if __name__ == '__main__':
     if not args.distributed:
         model = model.to(device)
     else :
-        model.cuda()
+        model.to(device)
         model = torch.nn.parallel.DistributedDataParallel(model)
     print(model)
     print("Number of parameters: %d" % DeepSpeech.get_param_size(model))
