@@ -382,9 +382,12 @@ if __name__ == '__main__':
 
         if main_proc and (best_wer is None or best_wer > wer):
             print("Found better validated model, saving to %s" % args.model_path)
+            '''
             torch.save(DeepSpeech.serialize(model, optimizer=optimizer, epoch=epoch, loss_results=loss_results,
                                             wer_results=wer_results, cer_results=cer_results)
                        , args.model_path)
+            '''
+            torch.save(model, file_path)
             best_wer = wer
             avg_loss = 0
 
