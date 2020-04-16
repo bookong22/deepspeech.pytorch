@@ -188,13 +188,15 @@ def _collate_fn(batch):
     minibatch_size = len(batch)
     max_seqlength = longest_sample.size(1)
     # 20200410
-    if torch.distributed.is_available() :
+    '''
+    if torch.distributed.is_initialized() :
         # print("_collate_fn max_seqlength before all_reduce : ", max_seqlength)
         # print("torch.distributed.get_rank() : ", torch.distributed.get_rank())
         ts_max_seqlength = torch.tensor(max_seqlength).cuda(torch.distributed.get_rank())
         torch.distributed.all_reduce(ts_max_seqlength, op=torch.distributed.ReduceOp.MAX)
         max_seqlength = ts_max_seqlength.item()
         # print("_collate_fn max_seqlength after all_reduce : ", max_seqlength)
+    '''
     inputs = torch.zeros(minibatch_size, 1, freq_size, max_seqlength)
     input_percentages = torch.FloatTensor(minibatch_size)
     target_sizes = torch.IntTensor(minibatch_size)
