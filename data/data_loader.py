@@ -128,7 +128,7 @@ class SpectrogramParser(AudioParser):
                 spect.add_(-mean)
                 spect.div_(std)
             # print("------------------------------------------- parse_audio -------------------------------------------")
-            self.dict_audio_path_spect.update({audio_path : spect})
+            # self.dict_audio_path_spect.update({audio_path : spect})    # distributed 模式，多份复制，内存要爆
         else :
             spect = self.dict_audio_path_spect[audio_path]
             # print("------------------------------------------- from dict -------------------------------------------")
@@ -189,6 +189,8 @@ def _collate_fn(batch):
     max_seqlength = longest_sample.size(1)
     # 20200410
     '''
+    # 经测试，这个操作是没有必要的，之前报错可能是有些变量的device没有控制好
+    # 其实按 distributed 过程来理解也是不需要的，output并不做同步
     if torch.distributed.is_initialized() :
         # print("_collate_fn max_seqlength before all_reduce : ", max_seqlength)
         # print("torch.distributed.get_rank() : ", torch.distributed.get_rank())
