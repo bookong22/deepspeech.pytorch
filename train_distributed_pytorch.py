@@ -324,7 +324,7 @@ if __name__ == '__main__':
                                                 wer_results=wer_results, cer_results=cer_results, avg_loss=avg_loss),
                            file_path)
                 '''
-                torch.save(model, file_path)
+                torch.save(model.state_dict(), file_path)
             del loss, out, float_out
             # 20200410
             del inputs, targets
@@ -374,7 +374,7 @@ if __name__ == '__main__':
                                             wer_results=wer_results, cer_results=cer_results),
                        file_path)
             '''
-            torch.save(model, file_path)
+            torch.save(model.state_dict(), file_path)
         # anneal lr
         for g in optimizer.param_groups:
             g['lr'] = g['lr'] / args.learning_anneal
@@ -387,7 +387,7 @@ if __name__ == '__main__':
                                             wer_results=wer_results, cer_results=cer_results)
                        , args.model_path)
             '''
-            torch.save(model, file_path)
+            torch.save(model.state_dict(), file_path)
             best_wer = wer
             avg_loss = 0
 

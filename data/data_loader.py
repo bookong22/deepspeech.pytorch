@@ -285,6 +285,8 @@ class DistributedBucketingSampler(Sampler):
         # shuffle batch 20200417
         for i in range(len(self.bins)) :
             np.random.shuffle(self.bins[i])
+            # 验证是否生效
+            print("i, self.bins[i] : ", i, self.bins[i])
         #
         self.bins = [self.bins[i] for i in bin_ids]
 
