@@ -272,7 +272,7 @@ if __name__ == '__main__':
             target_sizes = target_sizes.long()
             # print("out.shape : ", out.shape)
             # print("float_out.shape : ", float_out.shape)
-            print("float_out_log_softmax.shape : ", float_out_log_softmax.shape)    # TxNxH
+            # print("float_out_log_softmax.shape : ", float_out_log_softmax.shape)    # TxNxH, 20200421 验证维度没有问题
             # print("targets.shape : ", targets.shape)
             # print("output_sizes, target_sizes : ", output_sizes, target_sizes)
             # time.sleep(1)
@@ -377,7 +377,13 @@ if __name__ == '__main__':
             torch.save(model.state_dict(), file_path)
         # anneal lr
         for g in optimizer.param_groups:
-            g['lr'] = g['lr'] / args.learning_anneal
+            # g['lr'] = g['lr'] / args.learning_anneal
+            if epoch < 5 :
+                g['lr'] = 1e-5
+            elif epoch < 20 :
+                g['lr'] = 1e-4
+            else :
+                g['lr'] = 1e-5
         print('Learning rate annealed to: {lr:.6f}'.format(lr=g['lr']))
 
         if main_proc and (best_wer is None or best_wer > wer):
