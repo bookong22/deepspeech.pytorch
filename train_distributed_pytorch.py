@@ -272,7 +272,7 @@ if __name__ == '__main__':
             target_sizes = target_sizes.long()
             # print("out.shape : ", out.shape)
             # print("float_out.shape : ", float_out.shape)
-            # print("float_out_log_softmax.shape : ", float_out_log_softmax.shape)
+            print("float_out_log_softmax.shape : ", float_out_log_softmax.shape)    # TxNxH
             # print("targets.shape : ", targets.shape)
             # print("output_sizes, target_sizes : ", output_sizes, target_sizes)
             # time.sleep(1)
