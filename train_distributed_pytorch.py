@@ -378,10 +378,10 @@ if __name__ == '__main__':
         # anneal lr
         for g in optimizer.param_groups:
             # g['lr'] = g['lr'] / args.learning_anneal
-            if epoch < 5 :
+            if epoch < 2 :
                 g['lr'] = 1e-5
             elif epoch < 20 :
-                g['lr'] = 1e-4
+                g['lr'] = 6e-4
             else :
                 g['lr'] = 1e-5
         print('Learning rate annealed to: {lr:.6f}'.format(lr=g['lr']))
