@@ -199,6 +199,7 @@ def _collate_fn(batch):
         max_seqlength = ts_max_seqlength.item()
         # print("_collate_fn max_seqlength after all_reduce : ", max_seqlength)
     '''
+    # 注意，这里补的是频谱长度，不是音频长度。
     inputs = torch.zeros(minibatch_size, 1, freq_size, max_seqlength)
     input_percentages = torch.FloatTensor(minibatch_size)
     target_sizes = torch.IntTensor(minibatch_size)

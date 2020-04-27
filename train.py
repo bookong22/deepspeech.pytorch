@@ -254,6 +254,7 @@ if __name__ == '__main__':
         for i, (data) in enumerate(train_loader, start=start_iter):
             if i == len(train_sampler):
                 break
+            # 注意 inputs shape (batch size, 1, spect_num, frame_num)
             inputs, targets, input_percentages, target_sizes = data
             input_sizes = input_percentages.mul_(int(inputs.size(3))).int()
             # measure data loading time
@@ -264,9 +265,9 @@ if __name__ == '__main__':
             # print("inputs.device : ", inputs.device)
             # print("input_sizes.device : ", input_sizes.device)
             out, output_sizes = model(inputs, input_sizes)
-            print("inputs, outputs shape; input_sizes, output_sizes  : ",
-                  inputs.shape, out.shape, input_sizes, output_sizes)
-            print("out[:][-1][:] : ", out[:][-1][:])
+            # print("inputs, outputs shape; input_sizes, output_sizes  : ",
+            #       inputs.shape, out.shape, input_sizes, output_sizes)
+            # print("out[:][-1][:] : ", out[:][-1][:])
             out = out.transpose(0, 1)  # TxNxH
 
             float_out = out.float()  # ensure float32 for loss

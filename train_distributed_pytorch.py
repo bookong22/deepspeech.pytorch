@@ -380,10 +380,10 @@ if __name__ == '__main__':
             # g['lr'] = g['lr'] / args.learning_anneal
             if epoch < 1 :
                 g['lr'] = 1e-4
-            elif epoch < 200 :
+            elif epoch < 10 :
                 g['lr'] = 1e-3
             else :
-                g['lr'] = 5e-4
+                g['lr'] = g['lr'] / args.learning_anneal
         print('Learning rate annealed to: {lr:.6f}'.format(lr=g['lr']))
 
         if main_proc and (best_wer is None or best_wer > wer):
